@@ -1,0 +1,169 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>mps module &#8212; MPyS 0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="mpo module" href="mpo.html" />
+    <link rel="prev" title="Welcome to MPyS’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-mps">
+<span id="mps-module"></span><h1>mps module<a class="headerlink" href="#module-mps" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="mps.Mps">
+<em class="property">class </em><code class="descclassname">mps.</code><code class="descname">Mps</code><span class="sig-paren">(</span><em>L</em>, <em>name='None'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mps.html#Mps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mps.Mps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Class for matrix product states (MPS).</p>
+<p>Every state can be expressed as:
+.. math:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">|</span> \<span class="n">Psi</span> \<span class="n">rangle</span> <span class="o">=</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i_1</span><span class="p">,</span> <span class="n">i_2</span><span class="p">,</span> \<span class="n">cdot</span><span class="p">,</span> <span class="n">i_L</span><span class="p">}</span> <span class="n">A</span><span class="o">^</span><span class="p">{</span><span class="n">i_1</span><span class="p">}</span> <span class="n">A</span><span class="o">^</span><span class="p">{</span><span class="n">i_2</span><span class="p">}</span>
+\<span class="n">cdot</span> <span class="n">A</span><span class="o">^</span><span class="p">{</span><span class="n">i_</span><span class="p">{</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">}}</span> <span class="n">M</span><span class="o">^</span><span class="p">{</span><span class="n">i_j</span><span class="p">}</span> <span class="n">B</span><span class="o">^</span><span class="p">{</span><span class="n">i_</span><span class="p">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">}}</span> \<span class="n">cdot</span> <span class="n">B</span><span class="o">^</span><span class="p">{</span><span class="n">i_L</span><span class="p">}</span> <span class="o">|</span> <span class="n">i_1</span> <span class="n">i_2</span>
+\<span class="n">cdot</span> <span class="n">i_L</span> \<span class="n">rangle</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="mps.Mps.L">
+<code class="descname">L</code><a class="headerlink" href="#mps.Mps.L" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – length of the MPS.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mps.Mps.D">
+<code class="descname">D</code><a class="headerlink" href="#mps.Mps.D" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – maximum bond dimension.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mps.Mps.A">
+<code class="descname">A</code><a class="headerlink" href="#mps.Mps.A" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>array list</em> – left canonical tensors that define the MPS at
+each site.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mps.Mps.B">
+<code class="descname">B</code><a class="headerlink" href="#mps.Mps.B" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>array list</em> – right canonical tensors that define the MPS at
+each site.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mps.Mps.M">
+<code class="descname">M</code><a class="headerlink" href="#mps.Mps.M" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>array list</em> – mixed canonical tensors at each site.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mps.Mps.truncate">
+<code class="descname">truncate</code><span class="sig-paren">(</span><em>D_new</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mps.html#Mps.truncate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mps.Mps.truncate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Truncate the MPS to a maximum bond dimension D_new.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>D_new</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – maximum bond dimension of the truncated MPS.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MPyS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">mps module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mpo.html">mpo module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to MPyS’s documentation!</a></li>
+      <li>Next: <a href="mpo.html" title="next chapter">mpo module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Alvaro Rubio.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/mps.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
