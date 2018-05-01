@@ -1,9 +1,10 @@
 """Tests for the MPS class."""
 
+import os
 import sys
 import unittest
 import numpy as np
-sys.path.append('../mpys')
+sys.path.append(os.path.abspath('./mpys'))
 from mps import Mps
 
 def check_left_canonical(psi):
@@ -59,8 +60,10 @@ class MPSCreationTestCase(unittest.TestCase):
         self.assertTrue(np.allclose(psi.B[2], M))
         self.assertTrue(np.allclose(psi.B[5], Bf))
         # Test canonicity.
-        # self.assertTrue(check_left_canonical(psi))
-        # self.assertTrue(check_right_canonical(psi))
+        self.assertTrue(check_left_canonical(psi))
+        self.assertTrue(check_right_canonical(psi))
+        # Test that the norm is 1.
+        self.assertAlmostEqual(psi.norm(), 1)
 
     def test_creation_AKLT(self):
         """Test the creation of an AKLT state."""
@@ -97,6 +100,8 @@ class MPSCreationTestCase(unittest.TestCase):
         # Test canonicity.
         self.assertTrue(check_left_canonical(psi))
         self.assertTrue(check_right_canonical(psi))
+        # Test that the norm is 1.
+        self.assertAlmostEqual(psi.norm(), 1)
 
     def test_creation_random(self):
         """Test the creation of a random state."""
@@ -105,5 +110,7 @@ class MPSCreationTestCase(unittest.TestCase):
         self.assertTrue(psi.d, 3)
         self.assertTrue(psi.D, 2)
         # Test canonicity.
-        # self.assertTrue(check_left_canonical(psi))
-        # self.assertTrue(check_right_canonical(psi))
+        self.assertTrue(check_left_canonical(psi))
+        self.assertTrue(check_right_canonical(psi))
+        # Test that the norm is 1.
+        self.assertAlmostEqual(psi.norm(), 1)

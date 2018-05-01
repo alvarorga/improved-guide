@@ -3,6 +3,8 @@
 import numpy as np
 from scipy.linalg import qr, rq
 
+from mpys.mps_ops import contract
+
 class Mps(object):
     """Class for matrix product states (MPS).
 
@@ -131,3 +133,8 @@ class Mps(object):
 
         else:
             raise NameError('The name of the state was not found.')
+
+    def norm(self):
+        """Compute the norm of the state."""
+        norm = contract(self, self)
+        return norm
