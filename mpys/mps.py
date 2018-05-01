@@ -112,7 +112,11 @@ class Mps(object):
             # Write the MPS in right-canonical form.
             aux_B = []
             R = np.ones((1, 1))
+<<<<<<< HEAD
             for i in reversed(range(L)):
+=======
+            for i in range(L-1, -1, -1):
+>>>>>>> 1b0c99c20deb7a920faf5991f4fbf79ba1f1572e
                 if i == 0:
                     shape = (1, d, 2)
                 elif i == L-1:
