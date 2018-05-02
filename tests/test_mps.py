@@ -12,6 +12,7 @@ def check_left_canonical(psi):
     for A in psi.A:
         rdim = np.shape(A)[2]
         L = np.einsum('mni,mnj->ij', A, A)
+        print(L)
         if not np.allclose(L, np.eye(rdim)):
             return False
     else:
@@ -109,6 +110,69 @@ class MPSCreationTestCase(unittest.TestCase):
         self.assertTrue(psi.L, 5)
         self.assertTrue(psi.d, 3)
         self.assertTrue(psi.D, 2)
+        # Test canonicity.
+        self.assertTrue(check_left_canonical(psi))
+        self.assertTrue(check_right_canonical(psi))
+        # Test that the norm is 1.
+        self.assertAlmostEqual(psi.norm(), 1)
+
+    def test_creation_pairs(self):
+        """Test the creation of a paired state."""
+        L = 5
+        psi = Mps(L, 'pairs')
+        self.assertEqual(psi.L, 5)
+        self.assertEqual(psi.d, 2)
+        self.assertEqual(psi.D, 2)
+        # Left canonical sites.
+        A = np.zeros((1, 2, 2))
+        A[0, 0, 0] = 1
+        A[0, 1, 1] = 1
+        B = np.zeros((2, 2, 1))
+        B[1, 0, 0] = np.sqrt(1/2)
+        B[0, 1, 0] = np.sqrt(1/2)
+        C = np.zeros((1, 2, 1))
+        C[0, 0, 0] = np.sqrt(1/2)
+        C[0, 1, 0] = np.sqrt(1/2)
+        self.assertTrue(np.allclose(psi.A[0], A))
+        self.assertTrue(np.allclose(psi.A[1], B))
+        self.assertTrue(np.allclose(psi.A[3], B))
+        self.assertTrue(np.allclose(psi.A[4], C))
+        # Right canonical sites.
+        A = np.zeros((1, 2, 2))
+        A[0, 0, 0] = np.sqrt(1/2)
+        A[0, 1, 1] = np.sqrt(1/2)
+        B = np.zeros((2, 2, 1))
+        B[1, 0, 0] = 1
+        B[0, 1, 0] = 1
+        C = np.zeros((1, 2, 1))
+        C[0, 0, 0] = np.sqrt(1/2)
+        C[0, 1, 0] = np.sqrt(1/2)
+        self.assertTrue(np.allclose(psi.B[0], A))
+        self.assertTrue(np.allclose(psi.B[1], B))
+        self.assertTrue(np.allclose(psi.B[3], B))
+        self.assertTrue(np.allclose(psi.B[4], C))
+        # Test canonicity.
+        self.assertTrue(check_left_canonical(psi))
+        self.assertTrue(check_right_canonical(psi))
+        # Test that the norm is 1.
+        self.assertAlmostEqual(psi.norm(), 1)
+
+    def test_creation_mixed(self):
+        """Test the creation of a mixed state."""
+        L = 7
+        psi = Mps(L, 'mixed')
+        self.assertEqual(psi.L, 7)
+        self.assertEqual(psi.d, 2)
+        self.assertEqual(psi.D, 1)
+        C = np.zeros((1, 2, 1))
+        C[0, 0, 0] = np.sqrt(1/2)
+        C[0, 1, 0] = np.sqrt(1/2)
+        self.assertTrue(np.allclose(psi.A[0], C))
+        self.assertTrue(np.allclose(psi.A[1], C))
+        self.assertTrue(np.allclose(psi.A[6], C))
+        self.assertTrue(np.allclose(psi.B[0], C))
+        self.assertTrue(np.allclose(psi.B[3], C))
+        self.assertTrue(np.allclose(psi.B[6], C))
         # Test canonicity.
         self.assertTrue(check_left_canonical(psi))
         self.assertTrue(check_right_canonical(psi))

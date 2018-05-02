@@ -9,7 +9,7 @@ TODO
 #### Mps
 - [x] Build MPS class.
 - [x] Add GHZ, AKLT and random states.
-- [ ] Add more states.
+- [x] Add more states.
 
 #### Mpo
 - [ ] Build Mpo class.
