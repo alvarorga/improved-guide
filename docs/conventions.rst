@@ -26,7 +26,7 @@ Index order in tensors
 
   and its indices are ordered as `conj(M[i, s, j])`.
 
-- **Left** and **rigth fixed points** are rank-two tensors that look like
+- **Left** and **rigth fixed points** are rank-2 tensors that look like
 
   .. image:: images/left_right_fixed_points.svg
      :align: center
