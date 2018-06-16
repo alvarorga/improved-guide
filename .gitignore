@@ -1,5 +1,3 @@
-.cache
-
 # Compiled source #
 ###################
 *.com
@@ -41,3 +39,5 @@ Thumbs.db
 #
 .ropeproject*
 __pycache__
+.pytest_cache
+.cache
