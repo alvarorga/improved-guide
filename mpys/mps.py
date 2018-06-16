@@ -199,9 +199,39 @@ class Mps(object):
         """Truncate the bond dimension a the given one."""
         pass
 
-    def enlarge_D(self, D):
-        """Enlarge the bond dimension to a given one.
+    def enlarge_D(self, new_D):
+        """Enlarge the bond dimension to a new one.
 
-        We do it by adding enough 0's to the tensors of the Mps.
+        To enlarge D we add 0's to the tensors of the Mps until we
+        reach the required bond dimension.
+
+        Args:
+            new_D (int): new bond dimension of the Mps.
         """
-        pass
+        if new_D <= self.D:
+            # New bond dimension is smaller than actual bond dimension.
+            return
+
+        new_A = []
+        new_B = []
+        for i in range(self.L):
+            shape_A = np.shape(self.A[i])
+            shape_B = np.shape(self.B[i])
+            ti1 = min(i, self.L-i)
+            ti2 = min(i+1, self.L-i-1)
+            new_shape_A = (2**ti1 if np.log2(new_D) > ti1 else new_D,
+                           self.d,
+                           2**ti2 if np.log2(new_D) > ti2 else new_D)
+            new_shape_B = (2**ti1 if np.log2(new_D) > ti1 else new_D,
+                           self.d,
+                           2**ti2 if np.log2(new_D) > ti2 else new_D)
+            new_A = np.zeros(new_shape_A, dtype=np.float64)
+            new_B = np.zeros(new_shape_B, dtype=np.float64)
+            # Write the elts of the old A and B tensors into the new
+            # ones and take them out of the lists 'A' and 'B'.
+            new_A[:shape_A[0], :, :shape_A[2]] = self.A.pop(i)
+            new_B[:shape_B[0], :, :shape_B[2]] = self.B.pop(i)
+            self.A.insert(i, new_A)
+            self.B.insert(i, new_B)
+        self.D = new_D
+        return

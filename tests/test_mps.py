@@ -13,7 +13,6 @@ def check_left_canonical(psi):
     for A in psi.A:
         rdim = np.shape(A)[2]
         L = np.einsum('mni,mnj->ij', A, A)
-        print(L)
         if not np.allclose(L, np.eye(rdim)):
             return False
     else:
@@ -181,3 +180,159 @@ class MPSCreationTestCase(unittest.TestCase):
         self.assertTrue(check_right_canonical(psi))
         # Test that the norm is 1.
         self.assertAlmostEqual(psi.norm(), 1)
+
+
+class MpsModificationBondDimension(unittest.TestCase):
+    """Test enlargement and truncation of the bond dimension."""
+
+    def test_enlargement_of_bond_dimension_in_GHZ_state(self):
+        """Test the enlargement of D in a GHZ state."""
+        psi = Mps(7, 'GHZ')
+        # psi has currently bond dimension D = 2, we will enlarge it to
+        # D = 5.
+        psi.enlarge_D(5)
+        self.assertEqual(psi.D, 5)
+        # Test 'A' tensors.
+        tmp = np.zeros((1, 2, 2))
+        tmp[0, 0, 0] = 1
+        tmp[0, 1, 1] = 1
+        self.assertTrue(np.allclose(psi.A[0], tmp))
+        tmp = np.zeros((2, 2, 4))
+        tmp[0, 0, 0] = 1
+        tmp[1, 1, 1] = 1
+        self.assertTrue(np.allclose(psi.A[1], tmp))
+        tmp = np.zeros((4, 2, 5))
+        tmp[0, 0, 0] = 1
+        tmp[1, 1, 1] = 1
+        self.assertTrue(np.allclose(psi.A[2], tmp))
+        tmp = np.zeros((5, 2, 5))
+        tmp[0, 0, 0] = 1
+        tmp[1, 1, 1] = 1
+        self.assertTrue(np.allclose(psi.A[3], tmp))
+        tmp = np.zeros((5, 2, 4))
+        tmp[0, 0, 0] = 1
+        tmp[1, 1, 1] = 1
+        self.assertTrue(np.allclose(psi.A[4], tmp))
+        tmp = np.zeros((4, 2, 2))
+        tmp[0, 0, 0] = 1
+        tmp[1, 1, 1] = 1
+        self.assertTrue(np.allclose(psi.A[5], tmp))
+        tmp = np.zeros((2, 2, 1))
+        tmp[0, 0, 0] = 1/np.sqrt(2)
+        tmp[1, 1, 0] = 1/np.sqrt(2)
+        self.assertTrue(np.allclose(psi.A[6], tmp))
+        # Test 'B' tensors.
+        tmp = np.zeros((1, 2, 2))
+        tmp[0, 0, 0] = 1/np.sqrt(2)
+        tmp[0, 1, 1] = 1/np.sqrt(2)
+        self.assertTrue(np.allclose(psi.B[0], tmp))
+        tmp = np.zeros((2, 2, 4))
+        tmp[0, 0, 0] = 1
+        tmp[1, 1, 1] = 1
+        self.assertTrue(np.allclose(psi.B[1], tmp))
+        tmp = np.zeros((4, 2, 5))
+        tmp[0, 0, 0] = 1
+        tmp[1, 1, 1] = 1
+        self.assertTrue(np.allclose(psi.B[2], tmp))
+        tmp = np.zeros((5, 2, 5))
+        tmp[0, 0, 0] = 1
+        tmp[1, 1, 1] = 1
+        self.assertTrue(np.allclose(psi.B[3], tmp))
+        tmp = np.zeros((5, 2, 4))
+        tmp[0, 0, 0] = 1
+        tmp[1, 1, 1] = 1
+        self.assertTrue(np.allclose(psi.B[4], tmp))
+        tmp = np.zeros((4, 2, 2))
+        tmp[0, 0, 0] = 1
+        tmp[1, 1, 1] = 1
+        self.assertTrue(np.allclose(psi.B[5], tmp))
+        tmp = np.zeros((2, 2, 1))
+        tmp[0, 0, 0] = 1
+        tmp[1, 1, 0] = 1
+        self.assertTrue(np.allclose(psi.B[6], tmp))
+
+    def test_enlargement_of_bond_dimension_in_AKLT_state(self):
+        """Test the enlargement of D in a AKLT state."""
+        psi = Mps(7, 'AKLT')
+        # psi has currently bond dimension D = 2, we will enlarge it to
+        # D = 6.
+        psi.enlarge_D(6)
+        self.assertEqual(psi.D, 6)
+        # Test 'A' tensors.
+        tmp = np.zeros((1, 3, 2))
+        tmp[0, 0, 0] = 1
+        tmp[0, 2, 1] = 1
+        self.assertTrue(np.allclose(psi.A[0], tmp))
+        tmp = np.zeros((2, 3, 4))
+        tmp[1, 0, 0] = -np.sqrt(2/3)
+        tmp[0, 1, 0] = -np.sqrt(1/3)
+        tmp[1, 1, 1] = np.sqrt(1/3)
+        tmp[0, 2, 1] = np.sqrt(2/3)
+        self.assertTrue(np.allclose(psi.A[1], tmp))
+        tmp = np.zeros((4, 3, 6))
+        tmp[1, 0, 0] = -np.sqrt(2/3)
+        tmp[0, 1, 0] = -np.sqrt(1/3)
+        tmp[1, 1, 1] = np.sqrt(1/3)
+        tmp[0, 2, 1] = np.sqrt(2/3)
+        self.assertTrue(np.allclose(psi.A[2], tmp))
+        tmp = np.zeros((6, 3, 6))
+        tmp[1, 0, 0] = -np.sqrt(2/3)
+        tmp[0, 1, 0] = -np.sqrt(1/3)
+        tmp[1, 1, 1] = np.sqrt(1/3)
+        tmp[0, 2, 1] = np.sqrt(2/3)
+        self.assertTrue(np.allclose(psi.A[3], tmp))
+        tmp = np.zeros((6, 3, 4))
+        tmp[1, 0, 0] = -np.sqrt(2/3)
+        tmp[0, 1, 0] = -np.sqrt(1/3)
+        tmp[1, 1, 1] = np.sqrt(1/3)
+        tmp[0, 2, 1] = np.sqrt(2/3)
+        self.assertTrue(np.allclose(psi.A[4], tmp))
+        tmp = np.zeros((4, 3, 2))
+        tmp[1, 0, 0] = -np.sqrt(2/3)
+        tmp[0, 1, 0] = -np.sqrt(1/3)
+        tmp[1, 1, 1] = np.sqrt(1/3)
+        tmp[0, 2, 1] = np.sqrt(2/3)
+        self.assertTrue(np.allclose(psi.A[5], tmp))
+        tmp = np.zeros((2, 3, 1))
+        tmp[0, 0, 0] = 1/np.sqrt(2)
+        tmp[1, 2, 0] = 1/np.sqrt(2)
+        self.assertTrue(np.allclose(psi.A[6], tmp))
+        # Test 'B' tensors.
+        tmp = np.zeros((1, 3, 2))
+        tmp[0, 0, 0] = 1/np.sqrt(2)
+        tmp[0, 2, 1] = 1/np.sqrt(2)
+        self.assertTrue(np.allclose(psi.B[0], tmp))
+        tmp = np.zeros((2, 3, 4))
+        tmp[1, 0, 0] = -np.sqrt(2/3)
+        tmp[0, 1, 0] = -np.sqrt(1/3)
+        tmp[1, 1, 1] = np.sqrt(1/3)
+        tmp[0, 2, 1] = np.sqrt(2/3)
+        self.assertTrue(np.allclose(psi.B[1], tmp))
+        tmp = np.zeros((4, 3, 6))
+        tmp[1, 0, 0] = -np.sqrt(2/3)
+        tmp[0, 1, 0] = -np.sqrt(1/3)
+        tmp[1, 1, 1] = np.sqrt(1/3)
+        tmp[0, 2, 1] = np.sqrt(2/3)
+        self.assertTrue(np.allclose(psi.B[2], tmp))
+        tmp = np.zeros((6, 3, 6))
+        tmp[1, 0, 0] = -np.sqrt(2/3)
+        tmp[0, 1, 0] = -np.sqrt(1/3)
+        tmp[1, 1, 1] = np.sqrt(1/3)
+        tmp[0, 2, 1] = np.sqrt(2/3)
+        self.assertTrue(np.allclose(psi.B[3], tmp))
+        tmp = np.zeros((6, 3, 4))
+        tmp[1, 0, 0] = -np.sqrt(2/3)
+        tmp[0, 1, 0] = -np.sqrt(1/3)
+        tmp[1, 1, 1] = np.sqrt(1/3)
+        tmp[0, 2, 1] = np.sqrt(2/3)
+        self.assertTrue(np.allclose(psi.B[4], tmp))
+        tmp = np.zeros((4, 3, 2))
+        tmp[1, 0, 0] = -np.sqrt(2/3)
+        tmp[0, 1, 0] = -np.sqrt(1/3)
+        tmp[1, 1, 1] = np.sqrt(1/3)
+        tmp[0, 2, 1] = np.sqrt(2/3)
+        self.assertTrue(np.allclose(psi.B[5], tmp))
+        tmp = np.zeros((2, 3, 1))
+        tmp[0, 0, 0] = 1
+        tmp[1, 2, 0] = 1
+        self.assertTrue(np.allclose(psi.B[6], tmp))
