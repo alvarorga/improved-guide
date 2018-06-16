@@ -5,6 +5,7 @@ from scipy.linalg import qr, rq
 
 from mpys.mps_ops import contract
 
+
 class Mps(object):
     """Class for matrix product states (MPS).
 
@@ -193,3 +194,14 @@ class Mps(object):
         """Compute the norm of the state."""
         norm = contract(self, self)
         return norm
+
+    def truncate_D(self, D):
+        """Truncate the bond dimension a the given one."""
+        pass
+
+    def enlarge_D(self, D):
+        """Enlarge the bond dimension to a given one.
+
+        We do it by adding enough 0's to the tensors of the Mps.
+        """
+        pass

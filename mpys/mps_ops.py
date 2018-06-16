@@ -1,7 +1,6 @@
 """Mps operations. Only between MPSs."""
 
 import numpy as np
-import mps
 
 
 def contract(psi, phi, optimize=True):
@@ -17,11 +16,10 @@ def contract(psi, phi, optimize=True):
         (float): the expected value of the contracion <psi|phi>.
 
     """
-    if (not isinstance(psi, mps.Mps)) or (not isinstance(phi, mps.Mps)):
-        raise TypeError('The inputs are not MPS.')
     if (psi.L != phi.L) or (psi.d != phi.d):
         raise ValueError('The input MPS do not have matching size '
                          + 'or dimension.')
+
     # Left tensor that will carry the result of the contraction.
     L = np.eye(1, dtype=np.float64)
     for i in range(psi.L):
