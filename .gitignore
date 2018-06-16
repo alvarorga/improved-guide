@@ -41,3 +41,4 @@ Thumbs.db
 __pycache__
 .pytest_cache
 .cache
+docs/_build/
