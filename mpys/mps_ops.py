@@ -3,6 +3,7 @@
 import numpy as np
 import mps
 
+
 def contract(psi, phi, optimize=True):
     """Compute the expected value of <psi|phi>.
 
@@ -14,7 +15,7 @@ def contract(psi, phi, optimize=True):
 
     Returns:
         (float): the expected value of the contracion <psi|phi>.
-        
+
     """
     if (not isinstance(psi, mps.Mps)) or (not isinstance(phi, mps.Mps)):
         raise TypeError('The inputs are not MPS.')
