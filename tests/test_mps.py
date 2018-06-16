@@ -1,11 +1,11 @@
 """Tests for the MPS class."""
 
-import os
 import sys
 import unittest
 import numpy as np
-sys.path.append(os.path.abspath('./mpys'))
-from mps import Mps
+sys.path.append('..')
+from mpys.mps import Mps
+
 
 def check_left_canonical(psi):
     """Check that psi is left canonical."""
@@ -18,6 +18,7 @@ def check_left_canonical(psi):
     else:
         return True
 
+
 def check_right_canonical(psi):
     """Check that psi is right canonical."""
     for B in reversed(psi.B):
@@ -27,6 +28,7 @@ def check_right_canonical(psi):
             return False
     else:
         return True
+
 
 class MPSCreationTestCase(unittest.TestCase):
     """Tests for MPS creation routines."""
