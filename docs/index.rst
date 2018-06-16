@@ -8,8 +8,8 @@ Welcome to MPyS's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
+   conventions
 
 
 Indices and tables
